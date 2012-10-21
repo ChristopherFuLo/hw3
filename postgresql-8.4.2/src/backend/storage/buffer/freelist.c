@@ -236,7 +236,7 @@ StrategyGetBuffer(BufferAccessStrategy strategy, bool *lock_held)
 		 * above.
 		 */
 		else if (BufferReplacementPolicy == POLICY_LRU)
-		{
+		  {
 			elog(ERROR, "LRU unimplemented");
 		}
 		else if (BufferReplacementPolicy == POLICY_MRU)
