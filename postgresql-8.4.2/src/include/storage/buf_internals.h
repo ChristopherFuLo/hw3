@@ -147,7 +147,8 @@ typedef struct sbufdesc
 	/* CS186 TODO: Add any data you need to manage in order to implement
 	 * your buffer replacement strategies here.
 	 */
-
+	int			freeNextLRU;
+       
 } BufferDesc;
 
 #define BufferDescriptorGetBuffer(bdesc) ((bdesc)->buf_id + 1)

@@ -64,12 +64,12 @@ typedef struct
 	uint32		completePasses; /* Complete cycles of the clock sweep */
 	uint32		numBufferAllocs;	/* Buffers allocated since last reset */
 
-	/*
+	/* 
 	 * CS186 TODO: Add any data you need to manage in order to implement
 	 * your buffer replacement strategies here.
 	 */
-    linkedlist* list;
-
+	int			firstFreeBufferLRU;	/* Head of list of unused buffers */
+	int			lastFreeBufferLRU; /* Tail of list of unused buffers */  
 } BufferStrategyControl;
 
 /* Pointers to shared state */
@@ -125,8 +125,8 @@ BufferDesc* popBack(linkedlist *pointer);
 
 void insertFront(linkedlist *pointer, BufferDesc *data)
 {
-  /*if (pointer->length == 0) {
-		pointer->first = (node *)malloc(sizeof(node));
+  if (pointer->length == 0) {
+    pointer->first = (node *)malloc(sizeof(node));
 		(pointer->first)->prev = NULL;
 		(pointer->first)->next = NULL;
 		(pointer->first)->data = data;
@@ -139,7 +139,7 @@ void insertFront(linkedlist *pointer, BufferDesc *data)
         (pointer->first)->data = data;
         temp->prev = pointer->first;
     }    
-    pointer->length++;*/
+    pointer->length++;
 }
 
 void insertBack(linkedlist *pointer, BufferDesc *data)
@@ -362,7 +362,19 @@ StrategyGetBuffer(BufferAccessStrategy strategy, bool *lock_held)
 		 */
 		else if (BufferReplacementPolicy == POLICY_LRU)
 		{
-		  elog(ERROR, "2Q unimplemented");
+		  if (StrategyControl->lastFreeBufferLRU == -1 || StrategyControl->firstFreeBufferLRU == -1) {
+		    elog(ERROR, "No Unpinned Buffers Available: LRU");
+		  } else {
+			  resultIndex = StrategyControl->firstFreeBufferLRU;
+			  if (resultIndex == StrategyControl->lastFreeBufferLRU) {
+			    StrategyControl->firstFreeBufferLRU = -1;
+			    StrategyControl->lastFreeBufferLRU = -1;
+			  } else {
+			  buf = &BufferDescriptors[resultIndex];
+			  StrategyControl->firstFreeBufferLRU = buf->freeNextLRU;
+			  }
+			  
+		  }
 			/*
 			elog(LOG,"Entered LRU");
 			BufferDesc *temp = popFront((StrategyControl->list));
@@ -425,9 +437,19 @@ BufferUnpinned(int bufIndex)
    * StrategyControl global variable from inside this function.
    * This function was added by the GSIs.
 	 */
+	if (StrategyControl->lastFreeBufferLRU == -1) {//first FreeIndex
+	  StrategyControl->firstFreeBufferLRU = bufIndex;
+	  StrategyControl->lastFreeBufferLRU = bufIndex;
+	} else {
+	volatile BufferDesc *lastbuf = &BufferDescriptors[StrategyControl->lastFreeBufferLRU];
+	  lastbuf->freeNextLRU = bufIndex;
+	  StrategyControl->lastFreeBufferLRU = bufIndex;
+	}
+	/*
    elog (LOG, "right before insert Back");
 	insertBack((StrategyControl->list), buf);
    elog (LOG, 'right after insert back');
+	*/
 	LWLockRelease(BufFreelistLock);
 }
 
@@ -561,12 +583,15 @@ StrategyInitialize(bool init)
 		StrategyControl->numBufferAllocs = 0;
 
 		/* CS186 TODO: Initialize any data you added to StrategyControlData here */
+		StrategyControl->firstFreeBufferLRU = -1;
+		StrategyControl->lastFreeBufferLRU = -1;
+		/*
 		elog(LOG, "BEFORE INITIALLIZING StrategyControl->list");
 		StrategyControl->list = (linkedlist *)malloc(sizeof(linkedlist));
 		(StrategyControl->list)->length = 0;
 		(StrategyControl->list)->first = NULL;
 		(StrategyControl->list)->last = NULL;
-		elog(LOG, "AFTER INITIALIZING STRATEGYCONTROL->LIST");
+		elog(LOG, "AFTER INITIALIZING STRATEGYCONTROL->LIST");*/
 	}
 	else
 		Assert(!init);
