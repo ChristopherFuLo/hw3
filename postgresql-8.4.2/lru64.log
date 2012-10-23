@@ -1,0 +1,132 @@
+FATAL:  lock file "postmaster.pid" already exists
+HINT:  Is another postmaster (PID 15609) running in data directory "/home/ubuntu/pgsql/data"?
+LOG:  using buffer replacement policy: lru
+LOG:  database system was interrupted; last known up at 2012-10-20 23:57:38 PDT
+LOG:  database system was not properly shut down; automatic recovery in progress
+LOG:  record with zero length at 0/5400C4
+LOG:  redo is not required
+LOG:  received immediate shutdown request
+LOG:  using buffer replacement policy: clock
+LOG:  database system was interrupted; last known up at 2012-10-20 23:59:08 PDT
+LOG:  database system was not properly shut down; automatic recovery in progress
+LOG:  record with zero length at 0/540108
+LOG:  redo is not required
+LOG:  received immediate shutdown request
+FATAL:  lock file "postmaster.pid" already exists
+HINT:  Is another postmaster (PID 18246) running in data directory "/home/ubuntu/pgsql/data"?
+LOG:  using buffer replacement policy: clock
+LOG:  database system was interrupted; last known up at 2012-10-21 00:00:27 PDT
+LOG:  database system was not properly shut down; automatic recovery in progress
+LOG:  record with zero length at 0/540190
+LOG:  redo is not required
+LOG:  received immediate shutdown request
+LOG:  using buffer replacement policy: lru
+LOG:  database system was interrupted; last known up at 2012-10-21 00:07:00 PDT
+LOG:  database system was not properly shut down; automatic recovery in progress
+LOG:  record with zero length at 0/5401D4
+LOG:  redo is not required
+LOG:  received immediate shutdown request
+LOG:  BEFORE INITIALLIZING StrategyControl->list
+LOG:  AFTER INITIALIZING STRATEGYCONTROL->LIST
+LOG:  using buffer replacement policy: lru
+LOG:  database system was interrupted; last known up at 2012-10-21 00:07:14 PDT
+LOG:  database system was not properly shut down; automatic recovery in progress
+LOG:  record with zero length at 0/540218
+LOG:  redo is not required
+LOG:  right before insert Back
+LOG:  startup process (PID 20572) was terminated by signal 11: Segmentation fault
+LOG:  aborting startup due to startup process failure
+LOG:  BEFORE INITIALLIZING StrategyControl->list
+LOG:  AFTER INITIALIZING STRATEGYCONTROL->LIST
+LOG:  using buffer replacement policy: lru
+LOG:  database system was interrupted; last known up at 2012-10-21 00:11:14 PDT
+LOG:  database system was not properly shut down; automatic recovery in progress
+LOG:  record with zero length at 0/54025C
+LOG:  redo is not required
+LOG:  right before insert Back
+LOG:  ENTERS INSERTBACK WITH LEN = 0
+LOG:  GETS PAST IT ALL
+LOG:  startup process (PID 22798) was terminated by signal 11: Segmentation fault
+LOG:  aborting startup due to startup process failure
+LOG:  BEFORE INITIALLIZING StrategyControl->list
+LOG:  AFTER INITIALIZING STRATEGYCONTROL->LIST
+LOG:  using buffer replacement policy: lru
+LOG:  database system was interrupted; last known up at 2012-10-21 00:17:13 PDT
+LOG:  database system was not properly shut down; automatic recovery in progress
+LOG:  record with zero length at 0/5402A0
+LOG:  redo is not required
+LOG:  right before insert Back
+LOG:  ENTERS INSERTBACK WITH LEN = 0
+LOG:  GETS PAST IT ALL
+LOG:  right before length
+LOG:  right after length
+LOG:  startup process (PID 25122) was terminated by signal 11: Segmentation fault
+LOG:  aborting startup due to startup process failure
+LOG:  BEFORE INITIALLIZING StrategyControl->list
+LOG:  AFTER INITIALIZING STRATEGYCONTROL->LIST
+LOG:  using buffer replacement policy: lru
+LOG:  database system was interrupted; last known up at 2012-10-21 00:29:59 PDT
+LOG:  database system was not properly shut down; automatic recovery in progress
+LOG:  record with zero length at 0/5402E4
+LOG:  redo is not required
+LOG:  right before insert Back
+LOG:  ENTERS INSERTBACK WITH LEN = 0
+LOG:  GETS PAST IT ALL
+LOG:  right before length
+LOG:  right after length 1
+LOG:  startup process (PID 27351) was terminated by signal 11: Segmentation fault
+LOG:  aborting startup due to startup process failure
+LOG:  BEFORE INITIALLIZING StrategyControl->list
+LOG:  AFTER INITIALIZING STRATEGYCONTROL->LIST
+LOG:  using buffer replacement policy: lru
+LOG:  database system was interrupted; last known up at 2012-10-21 00:36:39 PDT
+LOG:  database system was not properly shut down; automatic recovery in progress
+LOG:  record with zero length at 0/540328
+LOG:  redo is not required
+LOG:  right before insert Back
+LOG:  ENTERS INSERTBACK WITH LEN = 0
+LOG:  0x92c4238
+LOG:  0xb74808d0
+LOG:  0x92c4238
+LOG:  GETS PAST IT ALL
+LOG:  right before length
+LOG:  right after length 1
+LOG:  startup process (PID 29607) was terminated by signal 11: Segmentation fault
+LOG:  aborting startup due to startup process failure
+LOG:  BEFORE INITIALLIZING StrategyControl->list
+LOG:  AFTER INITIALIZING STRATEGYCONTROL->LIST
+LOG:  using buffer replacement policy: lru
+LOG:  database system was interrupted; last known up at 2012-10-21 00:46:13 PDT
+LOG:  database system was not properly shut down; automatic recovery in progress
+LOG:  record with zero length at 0/54036C
+LOG:  redo is not required
+LOG:  right before insert Back
+LOG:  ENTERS INSERTBACK WITH LEN = 0
+LOG:  0x8a56238
+LOG:  0xb74ff8d0
+LOG:  0x8a56238
+LOG:  GETS PAST IT ALL
+LOG:  right before length
+LOG:  right after length 1
+LOG:  startup process (PID 31836) was terminated by signal 11: Segmentation fault
+LOG:  aborting startup due to startup process failure
+LOG:  BEFORE INITIALLIZING StrategyControl->list
+LOG:  AFTER INITIALIZING STRATEGYCONTROL->LIST
+LOG:  using buffer replacement policy: lru
+LOG:  database system was interrupted; last known up at 2012-10-21 00:53:17 PDT
+LOG:  database system was not properly shut down; automatic recovery in progress
+LOG:  record with zero length at 0/5403B0
+LOG:  redo is not required
+LOG:  right before insert Back
+LOG:  startup process (PID 1804) was terminated by signal 11: Segmentation fault
+LOG:  aborting startup due to startup process failure
+LOG:  BEFORE INITIALLIZING StrategyControl->list
+LOG:  AFTER INITIALIZING STRATEGYCONTROL->LIST
+LOG:  using buffer replacement policy: lru
+LOG:  database system was interrupted; last known up at 2012-10-21 00:56:01 PDT
+LOG:  database system was not properly shut down; automatic recovery in progress
+LOG:  record with zero length at 0/5403F4
+LOG:  redo is not required
+LOG:  right before insert Back
+LOG:  startup process (PID 1814) was terminated by signal 11: Segmentation fault
+LOG:  aborting startup due to startup process failure

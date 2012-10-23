@@ -24,7 +24,19 @@
  * POLICY_LRU, POLICY_MRU, or POLICY_2Q.
  */
 int BufferReplacementPolicy;
+typedef struct LinkedNode
+{
+        BufferDesc *data;
+        struct LinkedNode *next;
+        struct LinkedNode *prev;
+}node;
 
+typedef struct LinkedList   
+{  
+    unsigned int length;  
+    struct LinkedNode *first;
+    struct LinkedNode *last;  
+}linkedlist; 
 /*
  * CS186: Shared freelist control information. This is a data
  * structure that is kept in shared memory, and holds information used
@@ -56,6 +68,7 @@ typedef struct
 	 * CS186 TODO: Add any data you need to manage in order to implement
 	 * your buffer replacement strategies here.
 	 */
+    linkedlist* list;
 
 } BufferStrategyControl;
 
@@ -100,8 +113,120 @@ typedef struct BufferAccessStrategyData
 static volatile BufferDesc *GetBufferFromRing(BufferAccessStrategy strategy);
 static void AddBufferToRing(BufferAccessStrategy strategy,
 				volatile BufferDesc *buf);
+void insertFront(linkedlist *pointer, BufferDesc *data);
+void insertBack(linkedlist *pointer, BufferDesc *data);
+BufferDesc* popFront(linkedlist *pointer);
+BufferDesc* popBack(linkedlist *pointer);
+
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
 
 
+void insertFront(linkedlist *pointer, BufferDesc *data)
+{
+  /*if (pointer->length == 0) {
+		pointer->first = (node *)malloc(sizeof(node));
+		(pointer->first)->prev = NULL;
+		(pointer->first)->next = NULL;
+		(pointer->first)->data = data;
+		pointer->last = pointer->first;
+	} else {
+        node* temp = pointer->first;
+        pointer->first = (node *)malloc(sizeof(node));
+        (pointer->first)->next = temp;
+        (pointer->first)->prev = NULL;
+        (pointer->first)->data = data;
+        temp->prev = pointer->first;
+    }    
+    pointer->length++;*/
+}
+
+void insertBack(linkedlist *pointer, BufferDesc *data)
+{
+  /*
+	if (pointer->length == 0) {
+	  elog(LOG, "ENTERS INSERTBACK WITH LEN = 0");
+		pointer->first = (node *)malloc(sizeof(node));
+                elog(LOG, "%p", pointer->first);
+		(pointer->first)->prev = NULL;
+		(pointer->first)->next = NULL;
+		(pointer->first)->data = data;
+		elog(LOG, "%p", (pointer->first)->data);
+		pointer->last = pointer->first;
+		elog(LOG, "%p", pointer->last);
+		elog(LOG, "GETS PAST IT ALL");
+	} else {
+	  elog(LOG, "enters else");
+        node* temp = pointer->last;
+        pointer->last = (node *)malloc(sizeof(node));
+        (pointer->last)->next = NULL;
+        (pointer->last)->prev = temp;
+        (pointer->last)->data = data;
+        temp->next = pointer->last;
+        elog(LOG, "finishes else");
+    }    
+	elog(LOG, "right before length");
+	pointer->length++;
+	elog(LOG, "right after length %d", pointer->length);*/
+}
+
+BufferDesc* popFront(linkedlist *pointer) {
+	BufferDesc* tempData = NULL;
+	node* temp = NULL;
+	if (pointer->length == 0 ) {
+		return NULL;
+	} else if (pointer->length == 1 ) {
+		temp = pointer->first;
+		tempData = (pointer->first)->data;
+		pointer->first = NULL;
+		pointer->last = NULL;
+	} else {
+		temp = pointer->first;
+		tempData = (pointer->first)->data;
+		pointer->first = (pointer->first)->next;
+		(pointer->first)->prev = NULL;
+	}
+	pointer->length--;
+	free(temp);
+    return tempData;
+}
+
+BufferDesc* popBack(linkedlist *pointer) {
+	BufferDesc* tempData = NULL;
+	node* temp = NULL;
+	if (pointer->length == 0 ) {
+		return NULL;
+	} else if (pointer->length == 1 ) {
+		temp = pointer->first;
+		tempData = (pointer->first)->data;
+		pointer->first = NULL;
+		pointer->last = NULL;
+	} else {
+		temp = pointer->last;
+		tempData = (pointer->last)->data;
+		pointer->last = (pointer->last)->prev;
+		(pointer->last)->next = NULL;
+	}
+	pointer->length--;
+	free(temp);
+    return tempData;	
+}
+/*
+void print(node *pointer)
+{
+        if(pointer==NULL)
+        {
+                return;
+        }
+        printf("%d ",pointer->data);
+        print(pointer->next);
+}
+*/
+
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
 /*
  * StrategyGetBuffer
  *
@@ -236,12 +361,28 @@ StrategyGetBuffer(BufferAccessStrategy strategy, bool *lock_held)
 		 * above.
 		 */
 		else if (BufferReplacementPolicy == POLICY_LRU)
-		  {
-			elog(ERROR, "LRU unimplemented");
+		{
+		  elog(ERROR, "2Q unimplemented");
+			/*
+			elog(LOG,"Entered LRU");
+			BufferDesc *temp = popFront((StrategyControl->list));
+			if (temp != NULL) {
+				resultIndex = temp->buf_id;
+			} else {
+				elog(ERROR, "No Unpinned Buffers Available: LRU");
+			}*/
 		}
 		else if (BufferReplacementPolicy == POLICY_MRU)
 		{
-			elog(ERROR, "MRU unimplemented");
+			elog(ERROR, "2Q unimplemented");
+			/*
+			elog(LOG,"ENTERED MRU");
+			BufferDesc *temp = popBack((StrategyControl->list));
+			if (temp != NULL) {
+				resultIndex = temp->buf_id;
+			} else {
+				elog(ERROR, "No Unpinned Buffers Available: MRU");
+			}*/
 		}
 		else if (BufferReplacementPolicy == POLICY_2Q)
 		{
@@ -284,7 +425,9 @@ BufferUnpinned(int bufIndex)
    * StrategyControl global variable from inside this function.
    * This function was added by the GSIs.
 	 */
-
+   elog (LOG, "right before insert Back");
+	insertBack((StrategyControl->list), buf);
+   elog (LOG, 'right after insert back');
 	LWLockRelease(BufFreelistLock);
 }
 
@@ -418,6 +561,12 @@ StrategyInitialize(bool init)
 		StrategyControl->numBufferAllocs = 0;
 
 		/* CS186 TODO: Initialize any data you added to StrategyControlData here */
+		elog(LOG, "BEFORE INITIALLIZING StrategyControl->list");
+		StrategyControl->list = (linkedlist *)malloc(sizeof(linkedlist));
+		(StrategyControl->list)->length = 0;
+		(StrategyControl->list)->first = NULL;
+		(StrategyControl->list)->last = NULL;
+		elog(LOG, "AFTER INITIALIZING STRATEGYCONTROL->LIST");
 	}
 	else
 		Assert(!init);

@@ -1,0 +1,14 @@
+LOG:  using buffer replacement policy: lru
+LOG:  database system was interrupted; last known up at 2012-10-20 23:45:54 PDT
+LOG:  database system was not properly shut down; automatic recovery in progress
+LOG:  record with zero length at 0/540080
+LOG:  redo is not required
+LOG:  received immediate shutdown request
+FATAL:  lock file "postmaster.pid" already exists
+HINT:  Is another postmaster (PID 18228) running in data directory "/home/ubuntu/pgsql/data"?
+LOG:  using buffer replacement policy: lru
+LOG:  database system was interrupted; last known up at 2012-10-20 23:59:26 PDT
+LOG:  database system was not properly shut down; automatic recovery in progress
+LOG:  record with zero length at 0/54014C
+LOG:  redo is not required
+LOG:  received immediate shutdown request
